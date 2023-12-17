@@ -68,7 +68,7 @@ public class IndexController {
     }
 
     @GetMapping("/test/login")
-    public @ResponseBody String testLogin(Authentication authentication,
+    public @ResponseBody String testLogin(Authentication authentication, // DI 의존성 주입됨
                                           @AuthenticationPrincipal PrincipalDetails userDetails) {
         System.out.println("/test/login ==========================");
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();

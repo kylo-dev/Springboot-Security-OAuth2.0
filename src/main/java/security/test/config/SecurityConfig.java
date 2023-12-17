@@ -40,21 +40,15 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/loginForm")
                         .loginProcessingUrl("/login") // login 주소가 호출이 되면 Security가 낚아채서 대신 로그인을 진행
-                        .defaultSuccessUrl("/")); // 특정 페이지 요청 시 그 페이지로 연결해줌
-//                .csrf().disable()
-//                .authorizeHttpRequests()
-//                .antMatchers("/user/**").authenticated()
-//                .antMatchers("/manager/**").hasAnyRole("MANAGER","ADMIN")
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .anyRequest().permitAll()
-//                .and()
-//                .formLogin()
-//                .loginPage("/loginForm")
-//                .loginProcessingUrl("/login") // login 주소가 호출이 되면 Security가 낚아채서 대신 로그인을 진행
-//                .defaultSuccessUrl("/")
-//                .and()
+                        .defaultSuccessUrl("/")) // 특정 페이지 요청 시 그 페이지로 연결해줌
+                .oauth2Login(
+                        (oauth2Login) -> oauth2Login
+                                .loginPage("/loginForm") // 구글 로그인이 완료된 뒤의 후처리가 필요 | Tip. 코드X (액세스토큰 + 사용자 프로필정보를 받음)
+                                .userInfoEndpoint(userInfo -> userInfo
+                                        .userService(principalOauth2UserService)) // 사용자 정보 엔드포인트를 처리하는 사용자 서비스 설정
+                );
 //                .oauth2Login()
-//                .loginPage("/loginForm") // 구글 로그인이 완료된 뒤의 후처리가 필요/ Tip. 코드X (액세스토큰 + 사용자 프로필정보 O)
+//                .loginPage("/loginForm") // 구글 로그인이 완료된 뒤의 후처리가 필요 | Tip. 코드X (액세스토큰 + 사용자 프로필정보 O)
 //                .userInfoEndpoint()
 //                .userService(principalOauth2UserService);
 

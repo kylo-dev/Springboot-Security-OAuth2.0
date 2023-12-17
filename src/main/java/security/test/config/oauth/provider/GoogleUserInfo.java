@@ -1,10 +1,14 @@
 package security.test.config.oauth.provider;
 
+import lombok.Getter;
+
 import java.util.Map;
 
+@Getter
 public class GoogleUserInfo implements OAuth2UserInfo{
 
-    private Map<String, Object> attributes;
+    private final Map<String, Object> attributes;
+
     public GoogleUserInfo(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
@@ -29,7 +33,4 @@ public class GoogleUserInfo implements OAuth2UserInfo{
         return (String) attributes.get("name");
     }
 
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
 }
