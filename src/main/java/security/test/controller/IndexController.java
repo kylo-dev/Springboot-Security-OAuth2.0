@@ -22,29 +22,6 @@ public class IndexController {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("/test/login")
-    public @ResponseBody String testLogin(Authentication authentication,
-                                          @AuthenticationPrincipal PrincipalDetails userDetails) {
-        System.out.println("/test/login ==========================");
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        System.out.println("authentication = " + principalDetails.getUser());
-
-        System.out.println("userDetails = " + userDetails.getUser());
-        return "세션 정보 확인";
-    }
-
-    @GetMapping("/test/oauth/login")
-    public @ResponseBody String testOAuthLogin(Authentication authentication,
-                                               @AuthenticationPrincipal OAuth2User oauth) {
-        System.out.println("/test/oauth/login ==========================");
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        System.out.println("authentication = " + oAuth2User.getAttributes());
-
-        System.out.println("oAuth2User = " + oauth.getAttributes());
-
-        return "OAuth 세션 정보 확인";
-    }
-
     @GetMapping("/")
     public String index() {
         return "index";
@@ -83,20 +60,43 @@ public class IndexController {
     public String join(User user) {
         System.out.println("user = " + user);
         user.setRole("ROLE_USER");
-        String rawPassword = user.getPassword();
-        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+        String encPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encPassword);
+
         userRepository.save(user); // 회원가입시 비밀번호: 1234
         return "redirect:/loginForm";
     }
 
-    @Secured("ROLE_ADMIN")
+    @GetMapping("/test/login")
+    public @ResponseBody String testLogin(Authentication authentication,
+                                          @AuthenticationPrincipal PrincipalDetails userDetails) {
+        System.out.println("/test/login ==========================");
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+        System.out.println("authentication = " + principalDetails.getUser());
+
+        System.out.println("userDetails = " + userDetails.getUser());
+        return "세션 정보 확인";
+    }
+
+    @GetMapping("/test/oauth/login")
+    public @ResponseBody String testOAuthLogin(Authentication authentication,
+                                               @AuthenticationPrincipal OAuth2User oauth) {
+        System.out.println("/test/oauth/login ==========================");
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        System.out.println("authentication = " + oAuth2User.getAttributes());
+
+        System.out.println("oAuth2User = " + oauth.getAttributes());
+
+        return "OAuth 세션 정보 확인";
+    }
+
+    @Secured("ROLE_ADMIN")  // 애노테이션에 인자로 받은 권한이 유저에게 있을 때만 실행하도록 할 수 있다.
     @GetMapping("/info")
     public @ResponseBody String info() {
         return "개인정보";
     }
 
-    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") // 메서드가 실행되기 전에 인증 검사
     @GetMapping("/data")
     public @ResponseBody String data() {
         return "데이터정보";

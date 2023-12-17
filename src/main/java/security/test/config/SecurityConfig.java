@@ -1,13 +1,13 @@
 package security.test.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import security.test.config.oauth.PrincipalOauth2UserService;
 
@@ -20,38 +20,45 @@ import security.test.config.oauth.PrincipalOauth2UserService;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) // secured 어노테이션 활성화, preAuthorize 활성화
+@EnableMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final PrincipalOauth2UserService principalOauth2UserService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .antMatchers("/user/**").authenticated()
-                .antMatchers("/manager/**").hasAnyRole("MANAGER","ADMIN")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/loginForm")
-                .loginProcessingUrl("/login") // login 주소가 호출이 되면 Security가 낚아채서 대신 로그인을 진행
-                .defaultSuccessUrl("/")
-                .and()
-                .oauth2Login()
-                .loginPage("/loginForm") // 구글 로그인이 완료된 뒤의 후처리가 필요/ Tip. 코드X (액세스토큰 + 사용자 프로필정보 O)
-                .userInfoEndpoint()
-                .userService(principalOauth2UserService);
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+                        authorize -> authorize
+                                .requestMatchers("/user/**").authenticated()
+                                .requestMatchers("/manager/**").hasAnyRole("MANAGER","ADMIN")
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .anyRequest().permitAll()
+                )
+                .formLogin(form -> form
+                        .loginPage("/loginForm")
+                        .loginProcessingUrl("/login") // login 주소가 호출이 되면 Security가 낚아채서 대신 로그인을 진행
+                        .defaultSuccessUrl("/")); // 특정 페이지 요청 시 그 페이지로 연결해줌
+//                .csrf().disable()
+//                .authorizeHttpRequests()
+//                .antMatchers("/user/**").authenticated()
+//                .antMatchers("/manager/**").hasAnyRole("MANAGER","ADMIN")
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .anyRequest().permitAll()
+//                .and()
+//                .formLogin()
+//                .loginPage("/loginForm")
+//                .loginProcessingUrl("/login") // login 주소가 호출이 되면 Security가 낚아채서 대신 로그인을 진행
+//                .defaultSuccessUrl("/")
+//                .and()
+//                .oauth2Login()
+//                .loginPage("/loginForm") // 구글 로그인이 완료된 뒤의 후처리가 필요/ Tip. 코드X (액세스토큰 + 사용자 프로필정보 O)
+//                .userInfoEndpoint()
+//                .userService(principalOauth2UserService);
 
-        return httpSecurity.build();
+        return http.build();
     }
 
-    // 해당 메서드의 return되는 object를 IoC로 등록
-//    @Bean
-//    public BCryptPasswordEncoder encodePwd() {
-//        return new BCryptPasswordEncoder();
-//    }
 }
