@@ -23,17 +23,17 @@ spring:
       client:
         registration:
           google:
-            client-id: 1088083338101-quop1n166hpe33eg3480pj8nbaensgrk.apps.googleusercontent.com
-            client-secret: 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
+            client-id: *********************************
+            client-secret: *********************************
             scope: profile, email
             redirect-uri: http://localhost:8080/login/oauth2/code/google
           facebook:
-            client-id: 850791733338400
-            client-secret: 7b3572092faba8e7a39917d4129612cf
+            client-id: *********************************
+            client-secret: *********************************
             scope: public_profile, email
           naver:
-            client-id: 7DloIgUmPVn5KMlCO_Yd
-            client-secret: Huryy9bYAe
+            client-id: *********************************
+            client-secret: *********************************
             scope: name, email
             client-name: Naver
             authorization-grant-type: authorization_code
