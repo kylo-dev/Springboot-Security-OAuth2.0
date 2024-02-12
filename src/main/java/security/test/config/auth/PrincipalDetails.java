@@ -6,15 +6,14 @@ package security.test.config.auth;
 // 4. Authentication 안에 User 정보가 있어야 함.
 // 5. User Object type => UserDetails 타입 객체
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import security.test.model.User;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
 
 // Security Session > Authentication > UserDetails(PrincipalDetails)
 @Data
@@ -29,7 +28,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     }
 
     // OAuth 로그인
-    public PrincipalDetails(User user, Map<String, Object> attributes){
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
         this.user = user;
         this.attributes = attributes;
     }

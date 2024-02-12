@@ -1,15 +1,14 @@
-package security.test.config.oauth.provider;
-
-import lombok.Getter;
+package security.test.config.oauth.userinfo;
 
 import java.util.Map;
+import lombok.Getter;
 
 @Getter
-public class NaverUserInfo implements OAuth2UserInfo{
+public class FacebookUserInfo implements OAuth2UserInfo {
 
     private final Map<String, Object> attributes;
 
-    public NaverUserInfo(Map<String, Object> attributes) {
+    public FacebookUserInfo(Map<String, Object> attributes) {
         this.attributes = attributes;
     }
 
@@ -20,7 +19,7 @@ public class NaverUserInfo implements OAuth2UserInfo{
 
     @Override
     public String getProvider() {
-        return "naver";
+        return "facebook";
     }
 
     @Override

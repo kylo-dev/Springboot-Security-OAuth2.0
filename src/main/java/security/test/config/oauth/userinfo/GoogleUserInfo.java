@@ -1,11 +1,10 @@
-package security.test.config.oauth.provider;
-
-import lombok.Getter;
+package security.test.config.oauth.userinfo;
 
 import java.util.Map;
+import lombok.Getter;
 
 @Getter
-public class GoogleUserInfo implements OAuth2UserInfo{
+public class GoogleUserInfo implements OAuth2UserInfo {
 
     private final Map<String, Object> attributes;
 
