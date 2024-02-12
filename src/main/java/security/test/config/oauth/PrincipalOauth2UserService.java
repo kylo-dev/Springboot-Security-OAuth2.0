@@ -64,7 +64,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String username = provider + "_" + providerId;
         String password = bCryptPasswordEncoder.encode("겟인데어");
         String email = oAuth2UserInfo.getEmail();
-        String role = "ROLE_USER";
+        String role = "USER";
 
         Optional<User> optionalUser = userRepository.findByUsername(username);
         User user = optionalUser.orElseGet(() -> userRepository.save(
