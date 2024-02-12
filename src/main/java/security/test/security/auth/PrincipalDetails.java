@@ -1,4 +1,4 @@
-package security.test.config.auth;
+package security.test.security.auth;
 
 // 1. Security가 "/login" 주소 요청이 오면 낚아채서 로그인을 진행
 // 2. 로그인 진행이 완료가 되면 Security가 Session을 만들어줍니다. (Security ContextHolder)

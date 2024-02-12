@@ -1,4 +1,4 @@
-package security.test.config.oauth;
+package security.test.security.oauth;
 
 import java.util.Map;
 import java.util.Optional;
@@ -10,11 +10,11 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import security.test.config.auth.PrincipalDetails;
-import security.test.config.oauth.userinfo.FacebookUserInfo;
-import security.test.config.oauth.userinfo.GoogleUserInfo;
-import security.test.config.oauth.userinfo.NaverUserInfo;
-import security.test.config.oauth.userinfo.OAuth2UserInfo;
+import security.test.security.auth.PrincipalDetails;
+import security.test.security.oauth.userinfo.FacebookUserInfo;
+import security.test.security.oauth.userinfo.GoogleUserInfo;
+import security.test.security.oauth.userinfo.NaverUserInfo;
+import security.test.security.oauth.userinfo.OAuth2UserInfo;
 import security.test.model.User;
 import security.test.repository.UserRepository;
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import security.test.config.auth.PrincipalDetails;
+import security.test.security.auth.PrincipalDetails;
 import security.test.model.User;
 import security.test.repository.UserRepository;
 

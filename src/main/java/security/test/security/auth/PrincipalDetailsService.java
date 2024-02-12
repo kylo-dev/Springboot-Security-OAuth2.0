@@ -1,4 +1,4 @@
-package security.test.config.auth;
+package security.test.security.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import security.test.model.User;
 import security.test.repository.UserRepository;
+import security.test.security.auth.PrincipalDetails;
 
 // Security 설정에서 loginProcessingUrl("/login");
 // '/login' 요청이 오면 자동으로 UserDetailsService 타입으로 IoC되어 있는 loadUserByUsername 함수 실행

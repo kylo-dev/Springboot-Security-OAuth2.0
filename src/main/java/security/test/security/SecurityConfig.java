@@ -1,4 +1,4 @@
-package security.test.config;
+package security.test.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import security.test.config.oauth.PrincipalOauth2UserService;
+import security.test.security.oauth.PrincipalOauth2UserService;
 
 /**
  * Google OAUTH 1. 코드받기 (인증), 2. 액세스 토큰(권한) 3. 사용자 프로필 정보 가져오고, 4-1. 그 정보를 토대로 회원가입을 자동으로 진행

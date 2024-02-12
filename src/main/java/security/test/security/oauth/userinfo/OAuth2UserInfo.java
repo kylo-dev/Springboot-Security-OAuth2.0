@@ -1,4 +1,4 @@
-package security.test.config.oauth.userinfo;
+package security.test.security.oauth.userinfo;
 
 public interface OAuth2UserInfo {
 
