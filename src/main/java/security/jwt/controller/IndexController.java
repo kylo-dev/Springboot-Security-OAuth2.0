@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import security.jwt.security.auth.PrincipalDetails;
-import security.jwt.model.User;
+import security.jwt.domain.User;
 import security.jwt.repository.UserRepository;
 
 @Controller
