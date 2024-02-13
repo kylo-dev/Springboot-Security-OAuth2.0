@@ -20,8 +20,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import security.jwt.model.Token;
-import security.jwt.model.User;
+import security.jwt.domain.Token;
+import security.jwt.domain.User;
 import security.jwt.repository.TokenRepository;
 import security.jwt.repository.UserRepository;
 
