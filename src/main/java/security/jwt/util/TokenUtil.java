@@ -8,6 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,9 +21,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import security.jwt.domain.Token;
 import security.jwt.domain.User;
-import security.jwt.repository.TokenRepository;
+import security.jwt.exception.ApiException;
+import security.jwt.exception.ErrorType;
 import security.jwt.repository.UserRepository;
 
 @Component
@@ -31,14 +32,13 @@ import security.jwt.repository.UserRepository;
 public class TokenUtil {
 
     private final UserRepository userRepository;
-    private final TokenRepository tokenRepository;
+    private final RedisUtil redisUtil;
 
     @Value("${secret.key}")
     private String SECRET_KEY;
 
     // Access Token 유효시간
     static final long AccessTokenValidTime = 15 * 60 * 1000L;
-    static final long RefreshTokenValidTime = 30 * 60 * 1000L;
 
     // Access Token 생성
     public String generateAccessToken(String userId) {
@@ -64,14 +64,11 @@ public class TokenUtil {
         String refreshToken = Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)
-            .setExpiration(new Date(now.getTime() + RefreshTokenValidTime))
             .signWith(secretKey, SignatureAlgorithm.HS256)
             .compact();
 
-        // TODO: 일시적으로 DB에 저장
-        tokenRepository.save(Token.builder()
-            .refreshToken(refreshToken)
-            .build());
+        // redis 저장
+        redisUtil.setDataExpire(userId, refreshToken, Duration.ofDays(7));
 
         return refreshToken;
     }
@@ -92,8 +89,7 @@ public class TokenUtil {
             e.printStackTrace();
             throw e;
         } catch (Exception e) {
-            // TODO: Exception 처리로 변경
-            return false;
+            throw new ApiException(ErrorType.USER_NOT_AUTHORIZED);
         }
     }
 
@@ -120,7 +116,7 @@ public class TokenUtil {
     // Access Token을 Header에서 추출하는 메서드
     public String getJWTTokenFromHeader(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
-
+        log.info("-------------------------Authorization Header: " + authorizationHeader);
         if (authorizationHeader != null) {
             return authorizationHeader;
         }

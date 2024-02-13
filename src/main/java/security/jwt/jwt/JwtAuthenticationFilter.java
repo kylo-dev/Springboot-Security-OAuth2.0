@@ -21,6 +21,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         FilterChain filterChain) throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
+        // Public URI = 검증이 필요없느 주소 작성
         if (isPublicURI(requestURI)) {
             filterChain.doFilter(request, response);
             return;

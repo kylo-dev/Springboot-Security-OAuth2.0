@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CookieUtil {
 
-    public static void create(String value, HttpServletResponse response) {
+    public void create(String value, HttpServletResponse response) {
 
         ResponseCookie responseCookie = ResponseCookie.from("refreshToken", value)
             .path("/")
@@ -20,7 +20,7 @@ public class CookieUtil {
         response.addHeader("Set-Cookie", responseCookie.toString());
     }
 
-    public static void delete(String value, HttpServletResponse response) {
+    public void delete(String value, HttpServletResponse response) {
 
         ResponseCookie responseCookie = ResponseCookie.from("refreshToken", value)
             .path("/")

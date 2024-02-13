@@ -21,7 +21,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         super.setAuthenticationManager(authenticationManager);
     }
 
-    // 클라이언트로부터 받은 요청을 검증
+    // 클라이언트로부터 받은 요청에서 사용자의 아이디와 비밀번호를 추출하여 아래 토큰 생성
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
         HttpServletResponse response) throws AuthenticationException {

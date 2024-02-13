@@ -86,7 +86,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
             return ((Map<?, ?>) attributes.get("response")).get("nickname").toString();
 
         } else if (user.getProvider().equals("facebook")) {
-            return null;
+            return attributes.get("name").toString();
         }
 
         return null;

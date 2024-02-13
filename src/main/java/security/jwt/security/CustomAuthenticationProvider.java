@@ -18,8 +18,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final PrincipalDetailsService principalDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    // 사용자 인증 처리
-    // Authentication 객체를 통해 사용자의 아디이, 비밀번호 파싱
+    // 사용자 인증 처리 - Authentication 객체를 통해 사용자의 아디이, 비밀번호 파싱
     @Override
     public Authentication authenticate(Authentication authentication)
         throws AuthenticationException {

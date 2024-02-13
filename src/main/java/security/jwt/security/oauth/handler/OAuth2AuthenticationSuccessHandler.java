@@ -12,12 +12,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import security.jwt.domain.User;
-import security.jwt.repository.TokenRepository;
 import security.jwt.repository.UserRepository;
 import security.jwt.security.auth.PrincipalDetails;
 import security.jwt.security.oauth.userinfo.FacebookUserInfo;
 import security.jwt.security.oauth.userinfo.GoogleUserInfo;
 import security.jwt.security.oauth.userinfo.NaverUserInfo;
+import security.jwt.util.CookieUtil;
+import security.jwt.util.RedisUtil;
 import security.jwt.util.TokenUtil;
 
 @Slf4j
@@ -26,8 +27,11 @@ import security.jwt.util.TokenUtil;
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final UserRepository userRepository;
-    private final TokenRepository tokenRepository;
     private final TokenUtil tokenUtil;
+    private final RedisUtil redisUtil;
+    private final CookieUtil cookieUtil;
+
+    private final String frontendRedirectUri = "http://localhost:8080/myPage";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -59,12 +63,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         response.setHeader("Authorization", accessToken);
 
         log.info("--------------------------------- access token 생성 : " + accessToken);
-        // 리프레시 토큰을 Redis 에 저장
-//        if (redisUtil.getData(userId) == null) {
-//            String refreshToken = tokenUtil.generateRefreshToken(userId);
-//            // 리프레시 토큰은 쿠키에 담아서 응답으로 보냄
-//            cookieUtil.create(refreshToken, response);
-//        }
-        response.sendRedirect("/");
+         // 리프레시 토큰을 Redis 에 저장
+        if (redisUtil.getData(userId) == null) {
+            String refreshToken = tokenUtil.generateRefreshToken(userId);
+            // 리프레시 토큰은 쿠키에 담아서 응답으로 보냄
+            cookieUtil.create(refreshToken, response);
+        }
+        response.sendRedirect(frontendRedirectUri);
     }
 }

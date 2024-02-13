@@ -13,6 +13,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import security.jwt.exception.ErrorType;
 
+// 사용자가 인증되지 않은 경우(인증 예외가 발생한 경우)에 실행
 @Component
 @RequiredArgsConstructor
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
