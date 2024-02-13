@@ -13,7 +13,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import security.jwt.model.User;
+import security.jwt.domain.User;
 
 // Security Session > Authentication > UserDetails(PrincipalDetails)
 @Data
@@ -48,7 +48,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getEmail();
     }
 
     @Override
@@ -68,9 +68,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public boolean isEnabled() {
-
-        // 1년동안 로그인 하지 않은 경우 => 휴먼계정으로 하기
-
         return true;
     }
 
@@ -82,6 +79,16 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getName() {
+        if (user.getProvider().equals("google")) {
+            return attributes.get("name").toString();
+
+        } else if (user.getProvider().equals("naver")) {
+            return ((Map<?, ?>) attributes.get("response")).get("nickname").toString();
+
+        } else if (user.getProvider().equals("facebook")) {
+            return null;
+        }
+
         return null;
     }
 }
