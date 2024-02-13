@@ -23,7 +23,7 @@ public class AuthRequest {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Login {
-        private String username;
+        private String email;
         private String password;
     }
 }
