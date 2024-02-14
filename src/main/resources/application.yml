@@ -11,7 +11,7 @@ spring:
     open-in-view: true
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -27,8 +27,8 @@ spring:
       client:
         registration:
           google:
-            client-id: 260314451567-79g6jdos2ea28t1k6fau2d4u7amu4110.apps.googleusercontent.com
-            client-secret: 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
+            client-id: 1088083338101-quop1n166hpe33eg3480pj8nbaensgrk.apps.googleusercontent.com
+            client-secret: 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
             scope: profile, email
             redirect-uri: http://localhost:8080/login/oauth2/code/google
           facebook:
